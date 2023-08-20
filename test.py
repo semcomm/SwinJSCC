@@ -79,19 +79,11 @@ class config():
     elif args.trainset == 'DIV2K':
         save_model_freq = 100
         image_dims = (3, 256, 256)
-        # train_data_dir = ["/media/D/Dataset/HR_Image_dataset/"]
-        base_path = "/media/D/Dataset/HR_Image_dataset/"
+        train_data_dir = ["/media/D/Dataset/HR_Image_dataset/"]
         if args.testset == 'kodak':
             test_data_dir = ["/media/D/Dataset/kodak/"]
         elif args.testset == 'CLIC21':
-            test_data_dir = ["/media/D/Dataset/HR_Image_dataset/clic2021/test/"]
-
-        train_data_dir = [base_path + '/clic2020/**',
-                          base_path + '/clic2021/train',
-                          base_path + '/clic2021/valid',
-                          base_path + '/clic2022/val',
-                          base_path + '/DIV2K_train_HR',
-                          base_path + '/DIV2K_valid_HR']
+            test_data_dir = ["/media/D/Dataset/clic2021/"]
         batch_size = 16
         downsample = 4
         if args.model == 'SwinJSCC_w/o_SAandRA' or args.model == 'SwinJSCC_w/_SA':
@@ -239,7 +231,7 @@ if __name__ == '__main__':
     logger.info(config.__dict__)
     torch.manual_seed(seed=config.seed)
     net = SwinJSCC(args, config)
-    model_path = "/media/D/yangke/TransJSCC1/checkpoints/rate/awgn/div2k_awgn_cbr_psnr_snr10.model"
+    model_path = "/media/D/SwinJSCC/checkpoints/*"
     load_weights(model_path)
     net = net.cuda()
     model_params = [{'params': net.parameters(), 'lr': 0.0001}]
