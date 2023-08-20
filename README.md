@@ -31,19 +31,14 @@ python test.py --trainset {'CIFAR10', 'DIV2K'} --testset {'CIFAR10', 'kodak', 'C
 
 ### For SwinJSCC w/ SA&RA model 
 
-*e.g. cbr = 0.0625, snr = [1, 4, 7, 10, 13], C = [32, 64, 96, 128, 192], metric = PSNR, channel = AWGN
+*e.g. C = [32, 64, 96, 128, 192], snr = [1, 4, 7, 10, 13], C = [32, 64, 96, 128, 192], metric = PSNR, channel = AWGN
 
 ```
 e.g.
-python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model SwinJSCC_w/_SAandRA --channel_type awgn --C 32,64,96,128,192 -- multiple-snr 1,4,7,10,13
+python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model SwinJSCC_w/_SAandRA --channel_type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model-size base
 ```
 
 You can apply our method on your own images.
-
-
-# Citation
-
-If you find this work useful for your research, please cite:
 
 
 # Acknowledgement
