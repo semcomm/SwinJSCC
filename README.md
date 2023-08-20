@@ -13,7 +13,8 @@ performance versus the state-of-the-art engineered BPG + 5G LDPC coded transmiss
 
 ## Experimental results
 
-* we employ the BPG codec for compression combined with 5G LDPC codes for channel coding (marked as “BPG + LDPC”). Here, we considered 5G LDPC codes with a block length of 6144 bits for different coding rates and quadrature amplitude modulations (QAM). 
+* we employ the BPG codec for compression combined with 5G LDPC codes for channel coding (marked as “BPG + LDPC”). Here, we considered 5G LDPC codes with a block length of 6144 bits for different coding rates and quadrature amplitude modulations (QAM).
+* the ideal capacity-achieving channel code is also considered during evaluation (marked as “BPG + Capacity”).
 
 
 # Installation
@@ -42,9 +43,11 @@ You can apply our method on your own images.
 
 
 # Acknowledgement
-The implementation is based on [Swin Transformer](https://github.com/microsoft/Swin-Transformer).
-
 The implementation is based on [WITT: A Wireless Image Transmission Transformer For Semantic Communications](https://arxiv.org/abs/2211.00937) and [Swin Transformer](https://github.com/microsoft/Swin-Transformer).
 
 # Related links
 * BPG image format by _Fabrice Bellard_: https://bellard.org/bpg
+* Sionna An Open-Source Library for Next-Generation Physical Layer Research: https://github.com/NVlabs/sionna
+* DIV2K image dataset: https://data.vision.ee.ethz.ch/cvl/DIV2K/
+* Kodak image dataset: http://r0k.us/graphics/kodak/
+* CLIC image dataset:  http://compression.cc
