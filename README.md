@@ -36,7 +36,7 @@ python test.py --trainset {'CIFAR10', 'DIV2K'} --testset {'CIFAR10', 'kodak', 'C
 
 ```
 e.g.
-python train.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model SwinJSCC_w/_SAandRA --channel_type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model-size base
+python test.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model SwinJSCC_w/_SAandRA --channel_type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model-size base
 ```
 
 You can apply our method on your own images.
