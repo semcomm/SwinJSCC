@@ -27,7 +27,7 @@ We implement WITT under python 3.8 and PyTorch 1.9.
 All pretrain models can be found in [Aliyun Drive](https://www.aliyundrive.com/s/AFu5fZMjgCL)(password:p5ip) or [Google Drive](https://drive.google.com/drive/folders/1_EouRY4yYvMCtamX2ReBzEd5YBQbyesc?usp=sharing).
 
 ```
-python test.py --trainset {'CIFAR10', 'DIV2K'} --testset {'CIFAR10', 'kodak', 'CLIC21'} -- distortion-metric {'MSE', 'MS-SSIM'} --model {'SwinJSCC_w/o_SAandRA', 'SwinJSCC_w/_SA', 'SwinJSCC_w/_RA', 'SwinJSCC_w/_SAandRA'} --channel-type {'awgn', 'rayleigh'} --C {bottleneck dimension} --multiple-snr {random or fixed snr} --model-size {'small', 'base', 'large'}
+python test.py --trainset {'CIFAR10', 'DIV2K'} --testset {'CIFAR10', 'kodak', 'CLIC21'} -- distortion-metric {'MSE', 'MS-SSIM'} --model {'SwinJSCC_w/o_SAandRA', 'SwinJSCC_w/_SA', 'SwinJSCC_w/_RA', 'SwinJSCC_w/_SAandRA'} --channel-type {'awgn', 'rayleigh'} --C {bottleneck dimension} --multiple-snr {random or fixed snr} --model_size {'small', 'base', 'large'}
 ```
 
 ### For SwinJSCC w/ SA&RA model 
@@ -36,7 +36,7 @@ python test.py --trainset {'CIFAR10', 'DIV2K'} --testset {'CIFAR10', 'kodak', 'C
 
 ```
 e.g.
-python test.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model SwinJSCC_w/_SAandRA --channel_type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model-size base
+python test.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model SwinJSCC_w/_SAandRA --channel_type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model_size base
 ```
 
 You can apply our method on your own images.
