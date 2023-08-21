@@ -1,6 +1,6 @@
 # SwinJSCC: Taming Swin Transformer for Joint Source-Channel Coding
 
-Official Pytorch implementation for "SwinJSCC: Taming Swin Transformer for Deep Joint Source-Channel Coding".
+Official Pytorch implementation for "[SwinJSCC: Taming Swin Transformer for Deep Joint Source-Channel Coding](https://arxiv.org/abs/2308.09361)".
 
 This paper has been partially presented in IEEE ICASSP 2023 "[WITT: A Wireless Image Transmission Transformer For Semantic Communications](https://arxiv.org/abs/2211.00937)" and the code is available at [https://github.com/KeYang8/WITT](https://github.com/KeYang8/WITT).
 
@@ -41,6 +41,19 @@ python test.py --trainset DIV2K --testset kodak -- distortion_metric MSE --model
 
 You can apply our method on your own images.
 
+
+# Citation
+
+If you find this work useful for your research, please cite:
+
+@misc{yang2023swinjscc,
+      title={SwinJSCC: Taming Swin Transformer for Deep Joint Source-Channel Coding}, 
+      author={Ke Yang and Sixian Wang and Jincheng Dai and Xiaoqi Qin and Kai Niu and Ping Zhang},
+      year={2023},
+      eprint={2308.09361},
+      archivePrefix={arXiv},
+      primaryClass={eess.SP}
+}
 
 # Acknowledgement
 The implementation is based on [WITT: A Wireless Image Transmission Transformer For Semantic Communications](https://arxiv.org/abs/2211.00937) and [Swin Transformer](https://github.com/microsoft/Swin-Transformer).
