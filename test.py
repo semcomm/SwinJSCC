@@ -31,7 +31,7 @@ parser.add_argument('--C', type=str, default='32, 64, 96, 128, 192',
                     help='bottleneck dimension')
 parser.add_argument('--multiple-snr', type=str, default='1,4,7,10,13',
                     help='random or fixed snr')
-parser.add_argument('--model_size', type=str, default='base',
+parser.add_argument('--model-size', type=str, default='base',
                     choices=['small', 'base', 'large'], help='SwinJSCC model size')
 args = parser.parse_args()
 
