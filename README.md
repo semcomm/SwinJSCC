@@ -2,17 +2,15 @@
 
 Official Pytorch implementation for "[SwinJSCC: Taming Swin Transformer for Deep Joint Source-Channel Coding](https://arxiv.org/abs/2308.09361)".
 
-# Introduction
+## Introduction
 
 In this paper, we establish a new neural JSCC backbone that can also adapt flexibly to diverse channel conditions and transmission rates within a single model, our open-source project aims to promote the research in this field. Specifically, we show that with elaborate design, neural JSCC codec built on the emerging Swin Transformer backbone achieves superior performance than conventional neural JSCC codecs built upon CNN, while also requiring lower end-to-end processing latency. Paired with two spatial modulation modules that scale latent representations based on the channel state information and target transmission rate, our baseline SwinJSCC can further upgrade to a versatile version, which increases its capability to adapt to diverse channel conditions and rate configurations. Extensive experimental results show that our SwinJSCC achieves better or comparable performance versus the state-of-the-art engineered BPG + 5G LDPC coded transmission system with much faster end-to-end coding speed, especially for high-resolution images, in which case traditional CNN-based JSCC yet falls behind due to its limited model capacity. 
 
-# Installation
+## Installation
 We implement SwinJSCC under python 3.8 and PyTorch 1.9. 
 
 
-# Usage
-
-## Test
+## Usage
 
 * cbr = C/(2^(2i)*3*2), i denotes the downsample number. For CIFAR10, i=2; for HR_image, i=4.
 * SwinJSCC_w/o_SAandRA model is the SwinJSCC model without Channel ModNet module and Rate ModNet which is trained on a fixed SNR  and rate. SwinJSCC_w/_SA is the SwinJSCC model with Channel ModNet module which is trained on various SNRs and a fixed rate. SwinJSCC_w/_RA is the SwinJSCC model with Rate ModNet module which is trained on various rates and a fixed SNR. SwinJSCC_w/_SAandRA is the SwinJSCC model with Rate ModNet module and Channel ModNet module which is trained on various rates and SNRs.
@@ -61,7 +59,7 @@ python train.py --trainset DIV2K --testset kodak --distortion-metric MSE --model
 ```
 
 
-# Citation
+## Citation
 
 If you find this work useful for your research, please cite:
 
@@ -72,10 +70,10 @@ If you find this work useful for your research, please cite:
   year={2023}
 }
 
-# Acknowledgement
+## Acknowledgement
 The implementation is based on [Swin Transformer](https://github.com/microsoft/Swin-Transformer).
 
-# Related links
+## Related links
 * BPG image format by _Fabrice Bellard_: https://bellard.org/bpg
 * Sionna An Open-Source Library for Next-Generation Physical Layer Research: https://github.com/NVlabs/sionna
 * DIV2K image dataset: https://data.vision.ee.ethz.ch/cvl/DIV2K/
