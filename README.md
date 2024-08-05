@@ -65,12 +65,19 @@ python train.py --trainset DIV2K --testset kodak --distortion-metric MSE --model
 
 If you find this work useful for your research, please cite:
 
-@article{yang2023swinjscc,
-  title={SwinJSCC: Taming Swin Transformer for Deep Joint Source-Channel Coding},
+```
+@ARTICLE{10589474,
   author={Yang, Ke and Wang, Sixian and Dai, Jincheng and Qin, Xiaoqi and Niu, Kai and Zhang, Ping},
-  journal={arXiv preprint arXiv:2308.09361},
-  year={2023}
+  journal={IEEE Transactions on Cognitive Communications and Networking}, 
+  title={SwinJSCC: Taming Swin Transformer for Deep Joint Source-Channel Coding}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-1},
+  keywords={Transformers;Adaptation models;Signal to noise ratio;Convolutional neural networks;Wireless communication;Vectors;Image coding;Joint source-channel coding;Swin Transformer;attention mechanism;image communications},
+  doi={10.1109/TCCN.2024.3424842}
 }
+```
 
 ## Acknowledgement
 The implementation is based on [Swin Transformer](https://github.com/microsoft/Swin-Transformer).
