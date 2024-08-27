@@ -28,6 +28,9 @@ class SwinJSCC(nn.Module):
         self.multiple_snr = args.multiple_snr.split(",")
         for i in range(len(self.multiple_snr)):
             self.multiple_snr[i] = int(self.multiple_snr[i])
+        self.channel_number = args.C.split(",")
+        for i in range(len(self.channel_number)):
+            self.channel_number[i] = int(self.channel_number[i])
         self.downsample = config.downsample
         self.model = args.model
 
