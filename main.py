@@ -3,7 +3,7 @@ from net.network import SwinJSCC
 from data.datasets import get_loader
 from utils import *
 torch.backends.cudnn.benchmark = True
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import torch
 from datetime import datetime
 import torch.nn as nn
@@ -13,6 +13,8 @@ import time
 import torchvision
 
 parser = argparse.ArgumentParser(description='SwinJSCC')
+parser.add_argument('--training', action='store_true',
+                    help='training or testing')
 parser.add_argument('--trainset', type=str, default='DIV2K',
                     choices=['CIFAR10', 'DIV2K'],
                     help='train dataset name')
@@ -152,6 +154,94 @@ def load_weights(model_path):
     net.load_state_dict(pretrained, strict=True)
     del pretrained
 
+def train_one_epoch(args):
+    net.train()
+    elapsed, losses, psnrs, msssims, cbrs, snrs = [AverageMeter() for _ in range(6)]
+    metrics = [elapsed, losses, psnrs, msssims, cbrs, snrs]
+    global global_step
+    if args.trainset == 'CIFAR10':
+        for batch_idx, (input, label) in enumerate(train_loader):
+            start_time = time.time()
+            global_step += 1
+            input = input.cuda()
+            recon_image, CBR, SNR, mse, loss_G = net(input)
+            loss = loss_G
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            elapsed.update(time.time() - start_time)
+            losses.update(loss.item())
+            cbrs.update(CBR)
+            snrs.update(SNR)
+            if mse.item() > 0:
+                psnr = 10 * (torch.log(255. * 255. / mse) / np.log(10))
+                psnrs.update(psnr.item())
+                msssim = 1 - CalcuSSIM(input, recon_image.clamp(0., 1.)).mean().item()
+                msssims.update(msssim)
+            else:
+                psnrs.update(100)
+                msssims.update(100)
+
+            if (global_step % config.print_step) == 0:
+                process = (global_step % train_loader.__len__()) / (train_loader.__len__()) * 100.0
+                log = (' | '.join([
+                    f'Epoch {epoch}',
+                    f'Step [{global_step % train_loader.__len__()}/{train_loader.__len__()}={process:.2f}%]',
+                    f'Time {elapsed.val:.3f}',
+                    f'Loss {losses.val:.3f} ({losses.avg:.3f})',
+                    f'CBR {cbrs.val:.4f} ({cbrs.avg:.4f})',
+                    f'SNR {snrs.val:.1f} ({snrs.avg:.1f})',
+                    f'PSNR {psnrs.val:.3f} ({psnrs.avg:.3f})',
+                    f'MSSSIM {msssims.val:.3f} ({msssims.avg:.3f})',
+                    f'Lr {cur_lr}',
+                ]))
+                logger.info(log)
+                for i in metrics:
+                    i.clear()
+    else:
+        for batch_idx, input in enumerate(train_loader):
+            start_time = time.time()
+            global_step += 1
+            input = input.cuda()
+            recon_image, CBR, SNR, mse, loss_G = net(input)
+            loss = loss_G
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            elapsed.update(time.time() - start_time)
+            losses.update(loss.item())
+            cbrs.update(CBR)
+            snrs.update(SNR)
+            if mse.item() > 0:
+                psnr = 10 * (torch.log(255. * 255. / mse) / np.log(10))
+                psnrs.update(psnr.item())
+                msssim = 1 - CalcuSSIM(input, recon_image.clamp(0., 1.)).mean().item()
+                msssims.update(msssim)
+
+            else:
+                psnrs.update(100)
+                msssims.update(100)
+
+            if (global_step % config.print_step) == 0:
+                process = (global_step % train_loader.__len__()) / (train_loader.__len__()) * 100.0
+                log = (' | '.join([
+                    f'Epoch {epoch}',
+                    f'Step [{global_step % train_loader.__len__()}/{train_loader.__len__()}={process:.2f}%]',
+                    f'Time {elapsed.val:.3f}',
+                    f'Loss {losses.val:.3f} ({losses.avg:.3f})',
+                    f'CBR {cbrs.val:.4f} ({cbrs.avg:.4f})',
+                    f'SNR {snrs.val:.1f} ({snrs.avg:.1f})',
+                    f'PSNR {psnrs.val:.3f} ({psnrs.avg:.3f})',
+                    f'MSSSIM {msssims.val:.3f} ({msssims.avg:.3f})',
+                    f'Lr {cur_lr}',
+                ]))
+                logger.info(log)
+                for i in metrics:
+                    i.clear()
+    for i in metrics:
+        i.clear()
+
+
 def test():
     config.isTrain = False
     net.eval()
@@ -255,4 +345,12 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model_params, lr=cur_lr)
     global_step = 0
     steps_epoch = global_step // train_loader.__len__()
-    test()
+    if args.training:
+        for epoch in range(steps_epoch, config.tot_epoch):
+            train_one_epoch(args)
+            if (epoch + 1) % config.save_model_freq == 0:
+                save_model(net, save_path=config.models + '/{}_EP{}.model'.format(config.filename, epoch + 1))
+                test()
+    else:
+        test()
+
