@@ -22,7 +22,7 @@ All pretrained models are in [Google Drive](https://drive.google.com/drive/folde
 * for high-resolution images, we can firstly train the SwinJSCC_W/O model. Then, the SwinJSCC_W/O model is used as a pre-training model to train the whole SwinJSCC model.
 * You can apply our method on your own images.
 ```
-python train.py --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'SwinJSCC_w/o_SAandRA'/'SwinJSCC_w/_SA'/'SwinJSCC_w/_RA'/'SwinJSCC_w/_SAandRA'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr} --model_size {SwinJSCC model size}
+python main.py --training --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- distortion-metric {MSE/MS-SSIM} --model {'SwinJSCC_w/o_SAandRA'/'SwinJSCC_w/_SA'/'SwinJSCC_w/_RA'/'SwinJSCC_w/_SAandRA'} --channel-type {awgn/rayleigh} --C {bottleneck dimension} --multiple-snr {random or fixed snr} --model_size {SwinJSCC model size}
 ```
 
 ### For SwinJSCC_w/o_SAandRA model 
@@ -31,7 +31,7 @@ python train.py --trainset {CIFAR10/DIV2K} --testset {CIFAR10/kodak/CLIC21} -- d
 
 ```
 e.g.
-python train.py --trainset DIV2K --testset kodak -- distortion-metric MSE --model SwinJSCC_w/o_SAandRA model --channel-type awgn --C 96 -- multiple-snr 10 --model_size base
+python main.py --trainset DIV2K --testset kodak -- distortion-metric MSE --model SwinJSCC_w/o_SAandRA model --channel-type awgn --C 96 -- multiple-snr 10 --model_size base
 ```
 
 You can apply our method on your own images.
@@ -42,14 +42,14 @@ You can apply our method on your own images.
 
 ```
 e.g.
-python train.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 96 --multiple-snr 1,4,7,10,13 --model_size base
+python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 96 --multiple-snr 1,4,7,10,13 --model_size base
 ```
 ### For SwinJSCC_w/_RA model 
 *e.g. cbr = 0.0208,0.0416,0.0625,0.0833,0.125, snr = 10, metric = PSNR, channel = AWGN
 
 ```
 e.g.
-python train.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 32,64,96,128,192 --multiple-snr 10 --model_size base
+python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 32,64,96,128,192 --multiple-snr 10 --model_size base
 ```
 
 ### For SwinJSCC_w/_SAandRA model 
@@ -57,8 +57,10 @@ python train.py --trainset DIV2K --testset kodak --distortion-metric MSE --model
 
 ```
 e.g.
-python train.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model_size base
+python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model_size base
 ```
+
+>If you want to train this model, please add '--training'. 
 
 
 ## Citation
