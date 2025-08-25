@@ -42,14 +42,14 @@ You can apply our method on your own images.
 
 ```
 e.g.
-python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 96 --multiple-snr 1,4,7,10,13 --model_size base
+python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_w/_SA --channel-type awgn --C 96 --multiple-snr 1,4,7,10,13 --model_size base
 ```
 ### For SwinJSCC_w/_RA model 
 *e.g. cbr = 0.0208,0.0416,0.0625,0.0833,0.125, snr = 10, metric = PSNR, channel = AWGN
 
 ```
 e.g.
-python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 32,64,96,128,192 --multiple-snr 10 --model_size base
+python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_w/_RA --channel-type awgn --C 32,64,96,128,192 --multiple-snr 10 --model_size base
 ```
 
 ### For SwinJSCC_w/_SAandRA model 
@@ -57,7 +57,7 @@ python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model 
 
 ```
 e.g.
-python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_W/O --channel-type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model_size base
+python main.py --trainset DIV2K --testset kodak --distortion-metric MSE --model SwinJSCC_w/_SAandRA --channel-type awgn --C 32,64,96,128,192 --multiple-snr 1,4,7,10,13 --model_size base
 ```
 
 >If you want to train this model, please add '--training'. 
