@@ -8,6 +8,7 @@ In this paper, we establish a new neural JSCC backbone that can also adapt flexi
 
 ## Installation
 We implement SwinJSCC under Python 3.8 and PyTorch 1.9.
+
 Note: We found that when using w/ SA & RA for inference in a torch > 1.12 environment, the results are inconsistent with those reported in the paper. Therefore, it is recommended to use the same version of PyTorch as the training environment (torch <= 1.12) for inference.
 
 
