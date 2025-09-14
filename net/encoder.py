@@ -205,7 +205,7 @@ class AdaptiveModulator(nn.Module):
         return self.fc(snr)
 
 class SwinJSCC_Encoder(nn.Module):
-    def __init__(self, img_size, patch_size, in_chans,
+    def __init__(self, model, img_size, patch_size, in_chans,
                  embed_dims, depths, num_heads, C,
                  window_size=4, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  norm_layer=nn.LayerNorm, patch_norm=True,
@@ -245,30 +245,44 @@ class SwinJSCC_Encoder(nn.Module):
         if C != None:
             self.head_list = nn.Linear(embed_dims[-1], C)
         self.apply(self._init_weights)
+        # Channel ModNet and Rate  ModNet
+        if model == 'SwinJSCC_w/_SAandRA':
+            self.bm_list = nn.ModuleList()
+            self.sm_list = nn.ModuleList()
+            self.sm_list.append(nn.Linear(self.embed_dims[len(embed_dims) - 1], self.hidden_dim))
+            for i in range(layer_num):
+                if i == layer_num - 1:
+                    outdim = self.embed_dims[len(embed_dims) - 1]
+                else:
+                    outdim = self.hidden_dim
+                self.bm_list.append(AdaptiveModulator(self.hidden_dim))
+                self.sm_list.append(nn.Linear(self.hidden_dim, outdim))
+            self.sigmoid = nn.Sigmoid()
 
-        self.bm_list = nn.ModuleList()
-        self.sm_list = nn.ModuleList()
-        self.sm_list.append(nn.Linear(self.embed_dims[len(embed_dims) - 1], self.hidden_dim))
-        for i in range(layer_num):
-            if i == layer_num - 1:
-                outdim = self.embed_dims[len(embed_dims) - 1]
-            else:
-                outdim = self.hidden_dim
-            self.bm_list.append(AdaptiveModulator(self.hidden_dim))
-            self.sm_list.append(nn.Linear(self.hidden_dim, outdim))
-        self.sigmoid = nn.Sigmoid()
+            self.bm_list1 = nn.ModuleList()
+            self.sm_list1 = nn.ModuleList()
+            self.sm_list1.append(nn.Linear(self.embed_dims[len(embed_dims) - 1], self.hidden_dim))
+            for i in range(layer_num):
+                if i == layer_num - 1:
+                    outdim = self.embed_dims[len(embed_dims) - 1]
+                else:
+                    outdim = self.hidden_dim
+                self.bm_list1.append(AdaptiveModulator(self.hidden_dim))
+                self.sm_list1.append(nn.Linear(self.hidden_dim, outdim))
+            self.sigmoid1 = nn.Sigmoid()
+        else:
+            self.bm_list = nn.ModuleList()
+            self.sm_list = nn.ModuleList()
+            self.sm_list.append(nn.Linear(self.embed_dims[len(embed_dims) - 1], self.hidden_dim))
+            for i in range(layer_num):
+                if i == layer_num - 1:
+                    outdim = self.embed_dims[len(embed_dims) - 1]
+                else:
+                    outdim = self.hidden_dim
+                self.bm_list.append(AdaptiveModulator(self.hidden_dim))
+                self.sm_list.append(nn.Linear(self.hidden_dim, outdim))
+            self.sigmoid = nn.Sigmoid()
 
-        self.bm_list1 = nn.ModuleList()
-        self.sm_list1 = nn.ModuleList()
-        self.sm_list1.append(nn.Linear(self.embed_dims[len(embed_dims) - 1], self.hidden_dim))
-        for i in range(layer_num):
-            if i == layer_num - 1:
-                outdim = self.embed_dims[len(embed_dims) - 1]
-            else:
-                outdim = self.hidden_dim
-            self.bm_list1.append(AdaptiveModulator(self.hidden_dim))
-            self.sm_list1.append(nn.Linear(self.hidden_dim, outdim))
-        self.sigmoid1 = nn.Sigmoid()
 
 
     def forward(self, x, snr, rate, model):
@@ -277,7 +291,6 @@ class SwinJSCC_Encoder(nn.Module):
         x = self.patch_embed(x)
         for i_layer, layer in enumerate(self.layers):
             x = layer(x)
-            print(x.mean())
         x = self.norm(x)
 
         if model == 'SwinJSCC_w/o_SAandRA':
