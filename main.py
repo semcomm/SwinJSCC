@@ -178,9 +178,6 @@ def train_one_epoch(args):
                 psnrs.update(psnr.item())
                 msssim = 1 - CalcuSSIM(input, recon_image.clamp(0., 1.)).mean().item()
                 msssims.update(msssim)
-            else:
-                psnrs.update(100)
-                msssims.update(100)
 
             if (global_step % config.print_step) == 0:
                 process = (global_step % train_loader.__len__()) / (train_loader.__len__()) * 100.0
@@ -217,10 +214,6 @@ def train_one_epoch(args):
                 psnrs.update(psnr.item())
                 msssim = 1 - CalcuSSIM(input, recon_image.clamp(0., 1.)).mean().item()
                 msssims.update(msssim)
-
-            else:
-                psnrs.update(100)
-                msssims.update(100)
 
             if (global_step % config.print_step) == 0:
                 process = (global_step % train_loader.__len__()) / (train_loader.__len__()) * 100.0
@@ -274,9 +267,6 @@ def test():
                             psnrs.update(psnr.item())
                             msssim = 1 - CalcuSSIM(input, recon_image.clamp(0., 1.)).mean().item()
                             msssims.update(msssim)
-                        else:
-                            psnrs.update(100)
-                            msssims.update(100)
 
                         log = (' | '.join([
                             f'Time {elapsed.val:.3f}',
@@ -305,9 +295,6 @@ def test():
                             msssims.update(msssim)
                             MSSSIM = -10 * np.math.log10(1 - msssim)
                             print(MSSSIM)
-                        else:
-                            psnrs.update(100)
-                            msssims.update(100)
                         log = (' | '.join([
                             f'Time {elapsed.val:.3f}',
                             f'CBR {cbrs.val:.4f} ({cbrs.avg:.4f})',
@@ -336,7 +323,7 @@ if __name__ == '__main__':
     logger.info(config.__dict__)
     torch.manual_seed(seed=config.seed)
     net = SwinJSCC(args, config)
-    model_path = "/media/D/yangke/SwinJSCC/checkpoint/SwinJSCC_w_SAandRA_AWGN_HRimage_cbr_psnr_snr.model"
+    model_path = "./checkpoint/SwinJSCC_w_SAandRA_AWGN_HRimage_cbr_psnr_snr.model"
     load_weights(model_path)
     net = net.cuda()
     model_params = [{'params': net.parameters(), 'lr': 0.0001}]
@@ -353,4 +340,5 @@ if __name__ == '__main__':
                 test()
     else:
         test()
+
 
