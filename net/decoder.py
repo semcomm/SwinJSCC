@@ -61,7 +61,7 @@ class BasicLayer(nn.Module):
 
 
 class SwinJSCC_Decoder(nn.Module):
-    def __init__(self, img_size, embed_dims, depths, num_heads, C,
+    def __init__(self, model, img_size, embed_dims, depths, num_heads, C,
                  window_size=4, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  norm_layer=nn.LayerNorm, ape=False, patch_norm=True,
                  bottleneck_dim=16):
@@ -102,17 +102,18 @@ class SwinJSCC_Decoder(nn.Module):
         self.apply(self._init_weights)
         self.hidden_dim = int(self.embed_dims[0] * 1.5)
         self.layer_num = layer_num = 7
-        self.bm_list = nn.ModuleList()
-        self.sm_list = nn.ModuleList()
-        self.sm_list.append(nn.Linear(self.embed_dims[0], self.hidden_dim))
-        for i in range(layer_num):
-            if i == layer_num - 1:
-                outdim = self.embed_dims[0]
-            else:
-                outdim = self.hidden_dim
-            self.bm_list.append(AdaptiveModulator(self.hidden_dim))
-            self.sm_list.append(nn.Linear(self.hidden_dim, outdim))
-        self.sigmoid = nn.Sigmoid()
+        if model != "SwinJSCC_w/_RA":
+            self.bm_list = nn.ModuleList()
+            self.sm_list = nn.ModuleList()
+            self.sm_list.append(nn.Linear(self.embed_dims[0], self.hidden_dim))
+            for i in range(layer_num):
+                if i == layer_num - 1:
+                    outdim = self.embed_dims[0]
+                else:
+                    outdim = self.hidden_dim
+                self.bm_list.append(AdaptiveModulator(self.hidden_dim))
+                self.sm_list.append(nn.Linear(self.hidden_dim, outdim))
+            self.sigmoid = nn.Sigmoid()
 
     def forward(self, x, snr, model):
         if model == 'SwinJSCC_w/o_SAandRA':
